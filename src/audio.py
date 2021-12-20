@@ -12,7 +12,7 @@ class Audio:
         return sound, samplerate
 
     def play_audio_file(self, filename):
-        playsound(filename + ".mp3")
+        playsound("audio_files/" + filename)
 
 
     def create_audio_file(self, filename):
