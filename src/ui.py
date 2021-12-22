@@ -7,6 +7,7 @@ from src.audio import Audio
 
 HEIGHT = 300
 WIDTH = 500
+STEP = 8
 
 
 class UI:
@@ -27,17 +28,33 @@ class UI:
 
 
     def new_file(self):
+        global WIDTH
+        global STEP
+
         self.comment_dictionary = {}
+        self.audio.refresh_current_position()
+        # for i in range(WIDTH):
+        #     self.canvas.itemconfigure(str(i), fill="white")
+        i = 0
+        while i <= WIDTH:
+            self.canvas.itemconfigure(str(i), fill="white")
+            # print("this is i:",i)
+            i = i + 1
 
     def audio_wire(self):
         global HEIGHT
         global WIDTH
+        global STEP
 
         i = 0
-        while (i < WIDTH - 10):
-            self.canvas.create_line(i, random.randint(20, HEIGHT // 2), i,
-                                    (random.randint(HEIGHT // 2, HEIGHT - 20)) + 5, fill="white")
-            i = i + 8
+        while (i < WIDTH):
+            self.canvas.create_line(i, random.randint(20, HEIGHT // 2), i,(random.randint(HEIGHT // 2, HEIGHT - 20)), fill="white", tag = str(i))
+            i = i + STEP
+
+
+
+
+
 
     # Function to create new canvas of window
     def create_canvas(self):
@@ -46,6 +63,7 @@ class UI:
 
         self.canvas = tk.Canvas(self.window, bg="black", width=WIDTH, height=HEIGHT)
         self.canvas.pack()
+        self.audio.set_canvas(self.canvas)
 
 
     def create_buttons(self):
@@ -80,9 +98,6 @@ class UI:
 
         win = tk.Toplevel(self.window)
         win.geometry("400x200")
-        #
-        # child_canvas = tk.Canvas(win, bg="white", width=WIDTH, height=HEIGHT)
-        # child_canvas.pack()
 
         tk.Label(win, text="Please, enter name of new audio file").place(x=50, y=50)
         e = tk.Entry(win)
@@ -104,13 +119,12 @@ class UI:
         directory = "./audio_files/"
         file_list = os.listdir(directory)
         print(file_list)
-        #
-        # options = tk.StringVar()
+
         var = tk.StringVar(win)
         menu = tk.OptionMenu(win, var, *file_list)
         menu.pack()
         button = tk.Button(win, text='Select',
-                           command=lambda: [self.audio.set_filename(var.get()), self.new_file, win.destroy()])
+                           command=lambda: [self.audio.set_filename(var.get()), self.new_file(), win.destroy()])
         button.pack()
 
     def create_progress_bar(self):
