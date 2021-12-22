@@ -69,7 +69,9 @@ class UI:
 
     def create_comment_box(self):
         self.entry = tk.Entry(self.window)
-        self.entry.grid(row=5, column=0, columnspan=6)
+        self.entry.grid(row=5, column=3, columnspan=2)
+        entry_label = tk.Label(self.window, text="Add comment")
+        entry_label.grid(row=5, column=1, columnspan=2)
         self.audio.set_comment_box(self.entry)
 
     def pop_up_window_record(self):
