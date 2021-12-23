@@ -1,4 +1,4 @@
-from playsound import playsound
+import tkinter as tk
 import sounddevice as sd
 import pygame as pg
 from pydub import AudioSegment
@@ -69,9 +69,10 @@ class Audio:
 
 
     def create_audio_file(self, filename):
-        duration = 10
+        duration = 60
         fs = 44100
 
+        sd.default.channels = 2
         my_recording = sd.rec(duration * fs)
         sd.wait()
 
@@ -86,14 +87,19 @@ class Audio:
 
     def comment_on_audio_file(self):
 
-        if self.current_position in self.comment_dictionary.keys():
-            self.comment_dictionary[self.current_position].append(self.comment_entry.get())
+        if os.path.exists("audio_comments/" + self.filename + ".json"):
+            with open("audio_comments/" + self.filename + ".json", "r") as json_file:
+                self.comment_dictionary = json.load(json_file)
+
+        if str(self.current_position) in self.comment_dictionary.keys():
+            print("there is another comment")
+            self.comment_dictionary[str(self.current_position)].append(self.comment_entry.get())
         else:
-            self.comment_dictionary[self.current_position] = [self.comment_entry.get()]
+            self.comment_dictionary[str(self.current_position)] = [self.comment_entry.get()]
 
         with open("audio_comments/" + self.filename + ".json", "w") as json_file:
             json.dump(self.comment_dictionary, json_file)
-
+        self.comment_entry.delete(0, tk.END)
         json_file.close()
 
 
