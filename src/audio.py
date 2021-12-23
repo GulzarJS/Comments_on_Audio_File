@@ -126,14 +126,9 @@ class Audio:
 
         i = 0
         while(i <= change_position):
-            self.canvas.itemconfigure(str(i), fill = "blue")
+            self.canvas.itemconfigure(str(i), fill = "#C21B5F")
             i = i + 1
 
-#      TO DO
-#       Create normal popup windows(add positions)
-#       Correct recording(make duration 60 second and try to add stop button)
-#       Create text box with slider.
-#       Visualize audio Progress bar
 
 
 
